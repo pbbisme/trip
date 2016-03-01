@@ -432,6 +432,30 @@ html {
 
 待续啊待续。。。
 
+###强制竖屏 
+```
+<!-- UC强制竖屏 -->
+<meta name="screen-orientation" content="portrait">
+<!-- QQ强制竖屏 -->
+<meta name="x5-orientation" content="portrait">
+<!-- UC强制全屏 -->
+<meta name="full-screen" content="yes">
+<!-- QQ强制全屏 -->
+<meta name="x5-fullscreen" content="true">
+```
+
+###不对网站进行缓存
+```
+<meta http-equiv="Pragma" content="no-cache">
+```
+
+###优先使用IE和chrome
+```
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+```
+
+待续啊待续...
+
 
 
 
