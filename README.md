@@ -22,6 +22,8 @@
 	* [:checked与兄弟选择符一起使用的bug](#user-content-checked-sibling-bug)
 	* [为什么flex布局不生效](#user-content-flex)
 	* [为什么小于12px字号不生效](#user-content-12px)
+	* [浏览器userAgent判断](#userAgent)
+	
 * [经验](#user-content-experience)
 	* [禁止保存或拷贝图像](#user-content-touch-callout)
 	* [取消touch高亮](#user-content-tap-highlight-color)
@@ -456,7 +458,69 @@ html {
 
 待续啊待续...
 
+var ua = navigator.userAgent.toLowerCase();
 
+
+
+<a name="userAgent"></a>
+1.判断是否是微信
+ 
+function isWeixinBrowser() {
+        return (/micromessenger/.test(ua)) ? true : false;
+    }
+ 
+ 
+2.判断是否是android
+ 
+var isAndroid = ua.indexOf('android') > -1 || ua.indexOf('linux') > -1;
+
+3.具体过程
+ 
+scheme是客户端定义的url-scheme
+ 
+$("a[href^='scheme://']").on('click',function(e){
+        e.preventDefault();//阻止默认行为
+        if(isWeixinBrowser()){
+            $('.layer').show();//遮罩层（使用外部浏览器打开，此处样式自行设定）
+        }else{
+            if(isAndroid){
+                //android
+                $('body').append("<iframe src="" style='display:none' target='' ></iframe>");//target为空防止在当前页面刷新
+                setTimeout(function(){window.location = 'http://www.510wifi.com/weixin_download_client.html'},600);
+            }else{
+                //ios
+                window.location = 'scheme://openapp';
+                setTimeout(function(){window.location = 'itms-apps://itunes.apple.com/app/id123456789'},25);
+            }
+        }
+    })
+
+附：判断手机端各种浏览器
+ 
+if (ua.match(/WeiBo/i) == "weibo") {
+                //在新浪微博客户端打开
+        }
+        if (ua.match(/QQ/i) == "qq") {
+                //在QQ空间打开
+        }
+        if (browser.versions.ios) {
+                //是否在IOS浏览器打开
+        } 
+        if(browser.versions.android){
+                //是否在安卓浏览器打开
+        }
+ 
+var u = navigator.userAgent, app = navigator.appVersion;
+trident: u.indexOf('Trident') > -1, //IE内核
+            presto: u.indexOf('Presto') > -1, //opera内核
+            webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+            gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+            mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+            ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+            android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或uc浏览器
+            iPhone: u.indexOf('iPhone') > -1, //是否为iPhone或者QQHD浏览器
+            iPad: u.indexOf('iPad') > -1, //是否iPad
+            webApp: u.indexOf('Safari') == -1 //是否web应该程序，没有头部与底部
 
 
 
